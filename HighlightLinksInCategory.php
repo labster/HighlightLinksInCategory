@@ -1,13 +1,13 @@
 <?php
 # Extension: Highlight Links in Category
-# Copyright 2013, Brent Laabs
+# Copyright 2013, Brent Laabs and GethN7
 # Released under a MIT-style license, as well as under the same terms
 #    as Mediawiki.  See LICENSE for details
 
 
 $wgExtensionCredits['other'][] = array( 
         'name' => 'Highlight Link in Category', 
-        'author' => 'Brent Laabs' 'Arcane 21 (GethN7)',
+        'author' => 'Brent Laabs, Arcane 21 (GethN7)',
         'version' => '0.5',
         'url' => 'https://github.com/labster/mediawiki-highlight-links-in-category',
         'descriptionmsg' => 'Highlights links in categories via customizable CSS classes',
@@ -40,7 +40,7 @@ class HighlightCategoryLinks {
 	}
 
 	private static function getCatHash ($category, &$categoryArray) {
-		# Check memcached first (can be commented out if you have memcached enabled)
+		# Check memcached first (can be commented out if the absence of memcached)
 		$categoryArray = $wgMemc->get("HLCategoryList:$category");
 		if ($categoryArray) { return; }
 
@@ -53,7 +53,7 @@ class HighlightCategoryLinks {
 			$categoryArray[$row->cl_from] = True;  # map page ids to true for O(1) lookups
 		}
 
-		# Cache result for a day, and return (this can be disabled if you don't have memcahced enabled)
+		# Cache result for a day, and return (can be commented out if the absence of memcached)
 		$wgMemc->set("HLCategoryList:$category", $categoryArray, 86400 );
 		return;
 	}
