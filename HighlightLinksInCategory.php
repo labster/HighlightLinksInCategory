@@ -7,10 +7,10 @@
 
 $wgExtensionCredits['other'][] = array( 
         'name' => 'Highlight Link in Category', 
-        'author' => 'Brent Laabs',
+        'author' => 'Brent Laabs' 'Arcane 21 (GethN7)',
         'version' => '0.5',
         'url' => 'https://github.com/labster/mediawiki-highlight-links-in-category',
-        'descriptionmsg' => 'highlight-link-in-category',
+        'descriptionmsg' => 'Highlights links in categories via customizable CSS classes',
 ); 
 
 $wgHooks['LinkEnd'][] = 'HighlightCategoryLinks::HCLExtensionLinkEnd';
@@ -40,7 +40,7 @@ class HighlightCategoryLinks {
 	}
 
 	private static function getCatHash ($category, &$categoryArray) {
-		# Check memcached first
+		# Check memcached first (can be commented out if you have memcached enabled)
 		$categoryArray = $wgMemc->get("HLCategoryList:$category");
 		if ($categoryArray) { return; }
 
@@ -53,7 +53,7 @@ class HighlightCategoryLinks {
 			$categoryArray[$row->cl_from] = True;  # map page ids to true for O(1) lookups
 		}
 
-		# Cache result for a day, and return
+		# Cache result for a day, and return (this can be disabled if you don't have memcahced enabled)
 		$wgMemc->set("HLCategoryList:$category", $categoryArray, 86400 );
 		return;
 	}
