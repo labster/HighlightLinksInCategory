@@ -1,5 +1,5 @@
 <?php
-# ATT Category List
+# Extension: Highlight Links in Category
 # Copyright 2013, Brent Laabs
 # Released under a MIT-style license, as well as under the same terms
 #    as Mediawiki.  See LICENSE for details
@@ -41,7 +41,7 @@ class HighlightCategoryLinks {
 
 	private static function getCatHash ($category, &$categoryArray) {
 		# Check memcached first
-		$categoryArray = $wgMemc->get("ATTCategoryList:$category");
+		$categoryArray = $wgMemc->get("HLCategoryList:$category");
 		if ($categoryArray) { return; }
 
 		# We need to look this up in the DB
@@ -54,7 +54,7 @@ class HighlightCategoryLinks {
 		}
 
 		# Cache result for a day, and return
-		$wgMemc->set("ATTCategoryList:$category", $categoryArray, 86400 );
+		$wgMemc->set("HLCategoryList:$category", $categoryArray, 86400 );
 		return;
 	}
 
