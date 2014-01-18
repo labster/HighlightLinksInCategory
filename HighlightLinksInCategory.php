@@ -19,14 +19,14 @@ $wgHooks['LinkEnd'][] = 'HighlightCategoryLinks::HCLExtensionLinkEnd';
 class HighlightCategoryLinks {
 
 	private static $CategoryTrope;
-	private static $CategoryYMMV;
+	private static $CategoryYMMVTrope;
 
 	public static function HCLExtensionLinkEnd( $dummy, Title $target, array $options, &$html, array &$attribs, &$ret ) {
 		if (isset($attribs['class'])) {
 			return true; # don't mess with it if we have interwiki/broken/redirect
-		} elseif ( self::pageInCategory("YMMV",  self::$CategoryYMMV,  $target) ) {
+		} elseif ( self::pageInCategory("YMMV Trope", self::$CategoryYMMVTrope,  $target) ) {
 			$attribs['class'] = "ymmvlink";
-		} elseif ( self::pageInCategory("Trope", self::$CategoryTrope, $target) ) {
+		} elseif ( self::pageInCategory("Trope",      self::$CategoryTrope, $target) ) {
 			$attribs['class'] = "tropelink";
 		}
 		return true;
@@ -40,16 +40,16 @@ class HighlightCategoryLinks {
 	}
 
 	private static function getCatHash ($category, &$categoryArray) {
+		preg_replace( '/ /', '_', $category);
+
 		# Check memcached first (can be commented out if the absence of memcached)
 		global $wgMemc;
 		$categoryArray = $wgMemc->get("HLCategoryList:$category");
 		if ($categoryArray) { return; }
 
 		# We need to look this up in the DB
-		$underscored_category = $category;
-		preg_replace( '/ /', '_', $underscored_category);
 		$dbr = wfGetDB( DB_SLAVE );
-		$res = $dbr->select( 'categorylinks', 'cl_from', array( 'cl_to' => $underscored_category ) );
+		$res = $dbr->select( 'categorylinks', 'cl_from', array( 'cl_to' => $category ) );
 		foreach ( $res as $row ) {
 			$categoryArray[$row->cl_from] = True;  # map page ids to true for O(1) lookups
 		}
