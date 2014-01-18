@@ -40,6 +40,7 @@ class HighlightCategoryLinks {
 	}
 
 	private static function getCatHash ($category, &$categoryArray) {
+		global $wgMemc;
 		# Check memcached first (can be commented out if the absence of memcached)
 		$categoryArray = $wgMemc->get("HLCategoryList:$category");
 		if ($categoryArray) { return; }
