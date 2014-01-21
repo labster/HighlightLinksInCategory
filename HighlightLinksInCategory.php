@@ -24,7 +24,7 @@ class HighlightCategoryLinks {
 	public static function HCLExtensionLinkEnd( $dummy, Title $target, array $options, &$html, array &$attribs, &$ret ) {
 		if (isset($attribs['class'])) {
 			return true; # don't mess with it if we have interwiki/broken/redirect
-		} elseif ( self::pageInCategory("YMMV Trope", self::$CategoryYMMVTrope,  $target) ) {
+		} elseif ( self::pageInCategory("YMMV_Trope", self::$CategoryYMMVTrope,  $target) ) {
 			$attribs['class'] = "ymmvlink";
 		} elseif ( self::pageInCategory("Trope",      self::$CategoryTrope, $target) ) {
 			$attribs['class'] = "tropelink";
@@ -42,7 +42,7 @@ class HighlightCategoryLinks {
 	private static function getCatHash ($category, &$categoryArray) {
 		global $wgMemc;
 
-		preg_replace( '/ /', '_', $category);
+		#preg_replace( '/ /', '_', $category);
 
 		# Check memcached first (can be commented out if the absence of memcached)
 		$categoryArray = $wgMemc->get("HLCategoryList:$category");
