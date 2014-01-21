@@ -4,14 +4,13 @@
 # Released under a MIT-style license, as well as under the same terms
 #    as Mediawiki.  See LICENSE for details
 
-
-$wgExtensionCredits['other'][] = array( 
-        'name' => 'Highlight Link in Category', 
-        'author' => 'Brent Laabs, Arcane 21 (GethN7)',
-        'version' => '0.5',
-        'url' => 'https://github.com/labster/mediawiki-highlight-links-in-category',
-        'descriptionmsg' => 'Highlights links in categories via customizable CSS classes',
-); 
+$wgExtensionCredits['other'][] = array(
+	'name' => 'Highlight Link in Category',
+	'author' => 'Brent Laabs, Arcane 21 (GethN7)',
+	'version' => '0.5',
+	'url' => 'https://github.com/labster/mediawiki-highlight-links-in-category',
+	'descriptionmsg' => 'Highlights links in categories via customizable CSS classes',
+);
 
 $wgHooks['LinkEnd'][] = 'HighlightCategoryLinks::HCLExtensionLinkEnd';
 
@@ -22,31 +21,31 @@ class HighlightCategoryLinks {
 	private static $CategoryYMMVTrope;
 
 	public static function HCLExtensionLinkEnd( $dummy, Title $target, array $options, &$html, array &$attribs, &$ret ) {
-		if (isset($attribs['class'])) {
+		if ( isset( $attribs['class'] ) ) {
 			return true; # don't mess with it if we have interwiki/broken/redirect
-		} elseif ( self::pageInCategory("YMMV Trope", self::$CategoryYMMVTrope,  $target) ) {
+		} elseif ( self::pageInCategory( "YMMV Trope", self::$CategoryYMMVTrope,  $target ) ) {
 			$attribs['class'] = "ymmvlink";
-		} elseif ( self::pageInCategory("Trope",      self::$CategoryTrope, $target) ) {
+		} elseif ( self::pageInCategory( "Trope", self::$CategoryTrope, $target ) ) {
 			$attribs['class'] = "tropelink";
 		}
 		return true;
 	}
 
-	private static function pageInCategory ($category, &$categoryArray, $target) {
-		if (! $categoryArray) {
-			self::getCatHash($category, $categoryArray);
+	private static function pageInCategory ( $category, &$categoryArray, $target ) {
+		if ( !$categoryArray ) {
+			self::getCatHash( $category, $categoryArray );
 		}
-		return isset($categoryArray[$target->getArticleID()]);
+		return isset( $categoryArray[$target->getArticleID()] );
 	}
 
-	private static function getCatHash ($category, &$categoryArray) {
+	private static function getCatHash ( $category, &$categoryArray ) {
 		global $wgMemc;
 
-		preg_replace( '/ /', '_', $category);
+		preg_replace( '/ /', '_', $category );
 
 		# Check memcached first (can be commented out if the absence of memcached)
-		$categoryArray = $wgMemc->get("HLCategoryList:$category");
-		if ($categoryArray) { return; }
+		$categoryArray = $wgMemc->get( "HLCategoryList:$category" );
+		if ( $categoryArray ) { return; }
 
 		# We need to look this up in the DB
 		$dbr = wfGetDB( DB_SLAVE );
@@ -56,7 +55,7 @@ class HighlightCategoryLinks {
 		}
 
 		# Cache result for a day, and return (can be commented out if the absence of memcached)
-		$wgMemc->set("HLCategoryList:$category", $categoryArray, 86400 );
+		$wgMemc->set( "HLCategoryList:$category", $categoryArray, 86400 );
 		return;
 	}
 
