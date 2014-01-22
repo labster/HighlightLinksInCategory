@@ -22,13 +22,22 @@ class HighlightCategoryLinks {
 	private static $CategoryYMMVTrope;
 
 	public static function HCLExtensionLinkEnd( $dummy, Title $target, array $options, &$html, array &$attribs, &$ret ) {
+		$newclass = '';
 		if (isset($attribs['class'])) {
-			return true; # don't mess with it if we have interwiki/broken/redirect
-		} elseif ( self::pageInCategory("YMMV_Trope", self::$CategoryYMMVTrope,  $target) ) {
-			$attribs['class'] = "ymmvlink";
-		} elseif ( self::pageInCategory("Trope",      self::$CategoryTrope, $target) ) {
-			$attribs['class'] = "tropelink";
+			if ($attribs['class'] == "mw-changeslist-title") {
+				$newclass = "mw-changeslist-title ";
+			}
+			else {
+				return true; # don't mess with it if we have interwiki/broken/redirect
+			}
 		}
+
+		if ( self::pageInCategory( "YMMV_Trope", self::$CategoryYMMVTrope, $target) ) {
+			$attribs['class'] = $newclass . "ymmvlink";
+		} elseif ( self::pageInCategory("Trope", self::$CategoryTrope, $target) ) {
+			$attribs['class'] = $newclass . "tropelink";
+		}
+
 		return true;
 	}
 
