@@ -1,0 +1,23 @@
+{
+	"name": "Highlight Links in Category",
+	"version": "0.9.0",
+	"author": [
+		"Brent Laabs"
+	],
+	"url": "https://www.mediawiki.org/wiki/Extension:HighlightLinksInCategory",
+	"descriptionmsg": "Add a CSS class to all links pointing to members of a category.",
+	"license-name": "MIT",
+	"type": "other",
+	"AutoloadClasses": {
+		"HighlightLinksInCategory": "HighlightLinksInCategory.php"
+	},
+	"Hooks": {
+		"GetLinkColours": [
+			"HighlightLinksInCategory::onGetLinkColours"
+		]
+	},
+	"config": {
+		"HighlightLinksInCategory": { }
+	},
+	"manifest_version": 1
+}
