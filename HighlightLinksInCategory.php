@@ -31,7 +31,7 @@ class HighlightLinksInCategory {
 
         # Get page ids with appropriate categories from the DB
         # There's an index on (cl_from, cl_to) so this should be fast
-        $dbr = wfGetDB( DB_SLAVE );
+        $dbr = wfGetDB( DB_REPLICA );
         $res = $dbr->select( 'categorylinks',
             array('cl_from', 'cl_to'),
             $dbr->makeList( array(
