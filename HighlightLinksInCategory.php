@@ -101,7 +101,7 @@ class HighlightLinksInCategory {
         # Add the color classes to each page
         foreach ( $pageToTargets as $page=>$target ) {
             if ( array_key_exists( $target, $classes ) ) {
-                $colours[ $linkcolour_ids[$page] ] = $classes[ $target ];
+                $colours[ $linkcolour_ids[$page] ] .= ' ' . $classes[ $target ];
             }
         }
     }
