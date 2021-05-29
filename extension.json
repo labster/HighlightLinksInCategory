@@ -5,9 +5,14 @@
 		"Brent Laabs"
 	],
 	"url": "https://www.mediawiki.org/wiki/Extension:HighlightLinksInCategory",
-	"descriptionmsg": "Add a CSS class to all links pointing to members of a category.",
+	"descriptionmsg": "highlightlinksincategory-desc",
 	"license-name": "MIT",
 	"type": "other",
+	"MessagesDirs": {
+		"HighlightLinksInCategory": [
+			"i18n"
+		]
+	},
 	"AutoloadClasses": {
 		"HighlightLinksInCategory": "HighlightLinksInCategory.php"
 	},
