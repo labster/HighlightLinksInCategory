@@ -8,6 +8,11 @@
 	"descriptionmsg": "highlightlinksincategory-desc",
 	"license-name": "MIT",
 	"type": "other",
+	"MessagesDirs": {
+		"HighlightLinksInCategory": [
+			"i18n"
+		]
+	},
 	"AutoloadClasses": {
 		"HighlightLinksInCategory": "HighlightLinksInCategory.php"
 	},
