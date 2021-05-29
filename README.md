@@ -40,6 +40,8 @@ spaces, like:
 
 If `$wgHighlightLinksInCategory` is not set or empty, this extension will do nothing.
 
+Additionally, `$wgHighlightLinksInCategoryFollowRedirects` can be set to `true` in order to add classes based on a redirect's target's categories instead of its own categories. This defaults to `false` for backwards compatibility.
+
 Styling
 -------
 
