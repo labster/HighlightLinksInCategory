@@ -5,21 +5,21 @@
 
 # You can probably uncomment this to get it to work under 1.12
 #
-#$wgExtensionCredits['other'][] = array(
+# $wgExtensionCredits['other'][] = array(
 #        'name' => 'Highlight Links in Category',
 #        'author' => 'Brent Laabs',
 #        'version' => '0.9',
 #        'url' => 'https://github.com/labster/mediawiki-highlight-links-in-category',
 #        'descriptionmsg' => 'Highlights links in categories via customizable CSS classes',
-#);
+# );
 #
 # $wgHooks['GetLinkColours'][] = 'HighlightLinksInCategory::onGetLinkColours';
 
 class HighlightLinksInCategory {
 
     public static function onGetLinkColours( $linkcolour_ids, &$colours ) {
-    global $wgHighlightLinksInCategory;
-    global $wgHighlightLinksInCategoryFollowRedirects;
+        global $wgHighlightLinksInCategory;
+        global $wgHighlightLinksInCategoryFollowRedirects;
 
         if ( ! count($wgHighlightLinksInCategory) ) {
             return true;
@@ -42,14 +42,15 @@ class HighlightLinksInCategory {
         if ( $wgHighlightLinksInCategoryFollowRedirects ) {
             $res0 = $dbr->select(
                 [ 'redirect', 'page' ],
-                array('rd_from', 'page_id'),
+                [ 'rd_from', 'page_id' ],
                 $dbr->makeList( [
                     'rd_namespace = page_namespace',
                     'rd_title = page_title',
                     $dbr->makeList(
-                        array('rd_from' => $pagesToQuery ), LIST_OR ),
+                        [ 'rd_from' => $pagesToQuery ], LIST_OR ),
                    // 'rd_interwiki IS NULL',
-                ], LIST_AND )
+                ], LIST_AND ),
+                __METHOD__
             );
             foreach ( $res0 as $row ) {
                 # first, forget this page as a non-redirect
@@ -79,15 +80,16 @@ class HighlightLinksInCategory {
         # There's an index on (cl_from, cl_to) so this should be fast
         
         $resultCL = $dbr->select( 'categorylinks',
-            array('cl_from', 'cl_to'),
-            $dbr->makeList( array(
+            [ 'cl_from', 'cl_to' ],
+            $dbr->makeList( [
                 $dbr->makeList(
-                    array( 'cl_from' => $pagesToQuery ), LIST_OR),
+                    [ 'cl_from' => $pagesToQuery ], LIST_OR ),
                 $dbr->makeList(
-                    array( 'cl_to'   => $catNames), LIST_OR)
-                ),
+                    [ 'cl_to'   => $catNames ], LIST_OR )
+                ],
                 LIST_AND
-            )
+            ),
+            __METHOD__
         );
         
         $classes = [];
