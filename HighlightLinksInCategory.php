@@ -14,7 +14,7 @@ class HighlightLinksInCategory implements GetLinkColoursHook {
 		$this->connectionProvider = $connectionProvider;
 	}
 
-	public function onGetLinkColours( $linkcolour_ids, &$colours, $title ) {
+	public function onGetLinkColours( $linkcolour_ids, &$colours, $title ): bool {
         global $wgHighlightLinksInCategory;
         global $wgHighlightLinksInCategoryFollowRedirects;
 
@@ -107,6 +107,8 @@ class HighlightLinksInCategory implements GetLinkColoursHook {
                 $colours[ $linkcolour_ids[$page] ] .= ' ' . $classes[ $target ];
             }
         }
+
+		return true;
     }
 
 }
