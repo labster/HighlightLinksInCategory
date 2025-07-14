@@ -3,18 +3,6 @@
 # Copyright 2013, 2016 Brent Laabs
 # Released under a MIT-style license.  See LICENSE for details
 
-# You can probably uncomment this to get it to work under 1.12
-#
-# $wgExtensionCredits['other'][] = array(
-#        'name' => 'Highlight Links in Category',
-#        'author' => 'Brent Laabs',
-#        'version' => '0.9',
-#        'url' => 'https://github.com/labster/mediawiki-highlight-links-in-category',
-#        'descriptionmsg' => 'Highlights links in categories via customizable CSS classes',
-# );
-#
-# $wgHooks['GetLinkColours'][] = 'HighlightLinksInCategory::onGetLinkColours';
-
 use MediaWiki\Hook\GetLinkColoursHook;
 use Wikimedia\Rdbms\IConnectionProvider;
 
