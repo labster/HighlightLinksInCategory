@@ -8,6 +8,9 @@
 	"descriptionmsg": "highlightlinksincategory-desc",
 	"license-name": "MIT",
 	"type": "other",
+	"requires": {
+		"MediaWiki": ">= 1.40.0"
+	},
 	"MessagesDirs": {
 		"HighlightLinksInCategory": [
 			"i18n"
@@ -16,14 +19,24 @@
 	"AutoloadClasses": {
 		"HighlightLinksInCategory": "HighlightLinksInCategory.php"
 	},
+	"HookHandlers": {
+		"HighlightLinksInCategoryHooks": {
+			"class": "HighlightLinksInCategory",
+			"services": [
+				"ConnectionProvider"
+			]
+		}
+	},
 	"Hooks": {
-		"GetLinkColours": [
-			"HighlightLinksInCategory::onGetLinkColours"
-		]
+		"GetLinkColours": "HighlightLinksInCategoryHooks"
 	},
 	"config": {
-		"HighlightLinksInCategory": { },
-		"HighlightLinksInCategoryFollowRedirects": false
+		"HighlightLinksInCategory": {
+			"value": {}
+		},
+		"HighlightLinksInCategoryFollowRedirects": {
+			"value": false
+		}
 	},
-	"manifest_version": 1
+	"manifest_version": 2
 }
