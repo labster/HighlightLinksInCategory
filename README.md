@@ -9,8 +9,7 @@ not awesome to add 500 different style links.
 Requirements
 ------------
 
-Mediawiki 1.25 probably, but only tested on 1.26 and above.  Theoretically can
-work on 1.12 but might require some changes.
+Mediawiki 1.40 is required.
 
 Installation
 ------------
