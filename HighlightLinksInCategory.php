@@ -80,25 +80,43 @@ class HighlightLinksInCategory implements GetLinkColoursHook {
 			return true;
 		}
 
-        $resultCL = $dbr->select( 'categorylinks',
-            [ 'cl_from', 'cl_to' ],
-            $dbr->makeList( [
-                $dbr->makeList(
-                    [ 'cl_from' => $pagesToQuery ], LIST_OR ),
-                $dbr->makeList(
-                    [ 'cl_to'   => $catNames ], LIST_OR )
-                ],
-                LIST_AND
-            ),
-            __METHOD__
-        );
+		if ( version_compare( MW_VERSION, '1.45', '>=' ) ) {
+			$resultCL = $dbr->select(
+				[ 'categorylinks', 'linktarget' ],
+				[ 'cl_from', 'lt_title' ],
+				$dbr->makeList(
+					[
+						$dbr->makeList( [ 'cl_from' => $pagesToQuery ], LIST_OR ),
+						$dbr->makeList( [ 'lt_title' => $catNames ], LIST_OR ),
+						'lt_namespace' => NS_CATEGORY
+					],
+					LIST_AND
+				),
+				__METHOD__,
+				[],
+				[ 'linktarget' => [ 'INNER JOIN', 'cl_target_id = lt_id' ] ]
+			);
+		} else {
+			$resultCL = $dbr->select( 'categorylinks',
+				[ 'cl_from', 'cl_to' ],
+				$dbr->makeList( [
+					$dbr->makeList(
+						[ 'cl_from' => $pagesToQuery ], LIST_OR ),
+					$dbr->makeList(
+						[ 'cl_to'   => $catNames ], LIST_OR )
+				],
+					LIST_AND
+				),
+				__METHOD__
+			);
+		}
 
         $classes = [];
         foreach( $resultCL as $s ) {
             if ( ! array_key_exists( $s->cl_from, $classes ) ) {
                 $classes[ $s->cl_from ] = '';
             }
-            $classes[ $s->cl_from ] .= ' ' . $wgHighlightLinksInCategory[ $s->cl_to ];
+            $classes[ $s->cl_from ] .= ' ' . $wgHighlightLinksInCategory[ $s->cl_to ?? $s->lt_title ];
         }
 
         # Add the color classes to each page
